@@ -1,0 +1,18 @@
+<% @students.all.in_groups_of(6) do |row| %>
+    <div class="row">
+        <% row.each do |student| %>
+            <% if student %>
+            <div class="col-md-2">
+                <div class="btn-student">
+                    <%= link_to student do %>
+                        <%= image_tag student.image %>
+                        <p><%= status_icon student.status %> <%= student.name %></p>
+                    <% end %>
+                </div>
+            </div>
+        <% end %>
+        <% end %>
+    </div>
+<% end %>
+
+<%= link_to "New Student", new_student_path, class: 'btn btn-default btn-fixedbottom' %>

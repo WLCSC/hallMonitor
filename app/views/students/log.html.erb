@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-4">
+        <div style="text-align: center">
+        <h1>
+        <%= @student.name %>
+        </h1>
+
+        <%= image_tag @student.image, :class => 'student-img-lg' %>
+
+        <h2><%= status_icon @student.status %> - <%= @student.nice_status %></h2>
+        <h3><%= @student.destination %></h3>
+
+        <%= link_to 'Edit', edit_student_path(@student), class: 'btn btn-block btn-warning' %>
+        <%= link_to 'Back', students_path, class: 'btn btn-block btn-primary' %>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <% @activities.each do |a| %>
+                <tr>
+                    <td><%= a.created_at.strftime("%Y-%m-%d %I:%M %P").html_safe %></td>
+                    <td><%= status_icon a.status %> - <%= a.nice_status %></td>
+                    <td><%= a.destination %></td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+</div>
