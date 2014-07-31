@@ -18,7 +18,7 @@ class Student < ActiveRecord::Base
         when 'HAL'
             'Hallway'
         when 'WRK'
-            'Working Somewhere'
+            'Working'
         when 'OFC'
             'Office'
         when 'ITO'

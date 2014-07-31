@@ -1,0 +1,40 @@
+<%= label_tag :destination %>
+<%= text_field_tag :destination %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4"><%= i_submit_button('CLS', 'btn btn-default btn-block') %></div>
+        <div class="col-sm-4"><%= i_submit_button('HAL', 'btn btn-default btn-block') %></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><%= i_submit_button('ITO', 'btn btn-default btn-block') %></div>
+        <div class="col-sm-2"><%= i_submit_button('WRK', 'btn btn-default btn-block') %></div>
+        <div class="col-sm-2"><%= i_submit_button('OFC', 'btn btn-default btn-block') %></div>
+        <div class="col-sm-2"><%= i_submit_button('OUT', 'btn btn-default btn-block') %></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4"><%= i_submit_button('ABS', 'btn btn-default btn-block') %></div>
+        <div class="col-sm-2"><%= i_submit_button('LAT', 'btn btn-default btn-block') %></div>
+        <div class="col-sm-2"><%= i_submit_button('UNK', 'btn btn-default btn-block') %></div>
+    </div>
+</div>
+<%= hidden_field_tag :status, "NUL" %>
+<%= hidden_field_tag :student_id, @student ? @student.id : nil %>
+<%= submit_tag "Go", class: "btn btn-block btn-biggo btn-success", id: 'go-button' %>
+
+<%= javascript_tag do %>
+    $('.btn-goto').bind('click', function(e) {
+e.preventDefault();
+$('.btn-goto').removeClass('goto-active');
+$(this).addClass('goto-active');
+$('#status').val($(this).attr('value'));
+});
+
+$('#go-button').bind('click', function(e) {
+if($('#status').val() == "NUL") {
+e.preventDefault();
+alert('Pick a status thing!');
+}
+});
+<% end %>
+

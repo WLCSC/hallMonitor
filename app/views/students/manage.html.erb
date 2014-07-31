@@ -1,0 +1,21 @@
+<table class="table">
+<% @students.each do |student| %>
+    <tr>
+        <td>
+            <%= link_to student do %>
+                <%= image_tag student.image, class: 'mgr-image' %>
+            <% end %>
+        </td>
+        <td>
+            <%= student.name %>
+        </td>
+        <td>
+            <%= status_icon student.status %> <%= nice_status student.status %>
+        </td>
+        <td>
+            <%= link_to "Edit", edit_student_path(student), class: 'btn btn-block btn-warning' %>
+            <%= link_to "Delete", student, method: :delete, class: 'btn btn-block btn-danger', confirm: "Really delete #{student.name}?" %>
+        </td>
+    </tr>  
+<% end %>
+</table>

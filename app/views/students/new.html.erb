@@ -1,5 +1,13 @@
-<h1>New student</h1>
+<div class="row-fluid">
+    <div class="col-sm-3">
+        <div style="text-align: center">
+        <h1>New student</h1>
 
-<%= render 'form' %>
+        <%= link_to 'Cancel', students_path, class: 'btn btn-block btn-danger' %>
+        </div>
+    </div>
 
-<%= link_to 'Back', students_path %>
+    <div class="col-sm-9">
+        <%= render 'form' %>
+    </div>
+</div>

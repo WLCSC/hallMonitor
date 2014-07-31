@@ -78,6 +78,21 @@ class StudentsController < ApplicationController
       end
   end
 
+  def mass
+  end
+
+  def alter
+      @students = Student.all
+      @students.each do |s|
+          Activity.create(student_id: s.id, status: params[:status], destination: (params[:destination] || nil))
+      end
+      redirect_to root_path
+  end
+
+  def manage
+      @students = Student.all
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student

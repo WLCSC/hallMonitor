@@ -1,92 +1,108 @@
-<div class="container feedContainer">
+<%= form_for(@student) do |f| %>
+    <% if @student.errors.any? %>
+    <div id="error_explanation">
+    <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
+
+    <ul>
+        <% @student.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+    <% end %>
+    </ul>
+</div>
+  <% end %>
+
+
+<div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-4">
             <video id="liveFeed" autoplay></video>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
+        <div class="col-sm-4">
             <canvas id="img"></canvas>
+            <a onClick="takePhoto()" class="btn btn-primary btn-block">Take New Picture</a>
         </div>
-        <div class="col-md-6">
-            <button onClick="takePhoto()" class="btn btn-primary btn-block">Take New Picture</button>
+        <div class="col-sm-4">
+            <div class="field">
+                <%= f.label :name %><br>
+                <%= f.text_field :name %>
+            </div>
+
+
+            <div class="field" style="display: none;">
+                <%= f.label :image %><br>
+                <%= f.text_area :image %>
+            </div>
+            <div class="actions">
+                <%= f.submit nil, class: "btn btn-block btn-success" %>
+            </div>
+
         </div>
     </div>
 
 </div>
 
 
-<%= form_for(@student) do |f| %>
-  <% if @student.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
 
-      <ul>
-      <% @student.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-    </div>
-
-
-  <div class="field" style="display: none;">
-    <%= f.label :image %><br>
-    <%= f.text_area :image %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>
 
 
 <%= javascript_tag do %>
     function initCam()
-    {
-        if(navigator.webkitGetUserMedia)
-        {
-            navigator.webkitGetUserMedia({video:true}, onSuccess, onFail);
-        }
-        else
-        {
-            alert('webRTC not available');
-            }
+{
+if(navigator.webkitGetUserMedia)
+{
+navigator.webkitGetUserMedia({video:true}, onSuccess, onFail);
+}else if(navigator.mozGetUserMedia){
+navigator.mozGetUserMedia({video:true}, onSuccess, onFail);
+}else if(navigator.getUserMedia){
+navigator.getUserMedia({video:true}, onSuccess, onFail);
+}
+else
+{
+alert('webRTC not available');
+}
 
-            var myCanvas = document.getElementById('img');
-            var ctx = myCanvas.getContext('2d');
-            var img = new Image;
-            img.onload = function(){
-              ctx.drawImage(img,0,0); // Or at whatever offset you like
-              };
-              img.src = "<%= @student.image %>";
-    }
+var myCanvas = document.getElementById('img');
+var ctx = myCanvas.getContext('2d');
+var img = new Image;
+img.onload = function(){
+ctx.drawImage(img,0,0); // Or at whatever offset you like
+};
+img.src = "<%= @student.image %>";
+}
 
-    function onSuccess(stream)
-    {
-        document.getElementById('liveFeed').src = webkitURL.createObjectURL(stream);
-    }
+function onSuccessOld(stream)
+{
+if(navigator.webkitGetUserMedia)
+document.getElementById('liveFeed').src = webkitURL.createObjectURL(stream);
+else
+document.getElementById('liveFeed').src = mozURL.createObjectURL(stream);
+}
 
-    function onFail()
-    {
-        alert('could not connect stream');
-    }
+function onSuccess(stream) {
+video = document.getElementById('liveFeed');
+if (video.mozSrcObject !== undefined) {
+video.mozSrcObject = stream;
+} else {
+video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+};
+}
 
-    function takePhoto()
-    {
-        var c = document.getElementById('img');
-        var v = document.getElementById('liveFeed');
-        c.getContext('2d').drawImage(v, 0, 0, 300, 150);
-        $('#student_image').val(c.toDataURL());
-    }
+function onFail()
+{
+alert('could not connect stream');
+}
 
-    $(function() {
-        initCam();
-    });
+function takePhoto()
+{
+var c = document.getElementById('img');
+var v = document.getElementById('liveFeed');
+c.getContext('2d').drawImage(v, 0, 0, 300, 150);
+$('#student_image').val(c.toDataURL());
+}
+
+$(function() {
+initCam();
+});
 
 <% end %>

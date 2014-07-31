@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="col-md-4">
+<div class="row-fluid">
+    <div class="col-sm-3">
         <div style="text-align: center">
         <h1>
         <%= @student.name %>
@@ -15,49 +15,11 @@
         </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-sm-9">
         <div style="text-align: center; font-size: 18px;">
         <h1>Go To:</h1>
         <%= form_tag travel_student_path(@student) do %>
-            <%= label_tag :destination %>
-            <%= text_field_tag :destination %>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4"><%= i_submit_button('CLS', 'btn btn-default btn-block') %></div>
-                    <div class="col-md-4"><%= i_submit_button('HAL', 'btn btn-default btn-block') %></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"><%= i_submit_button('ITO', 'btn btn-default btn-block') %></div>
-                    <div class="col-md-2"><%= i_submit_button('WRK', 'btn btn-default btn-block') %></div>
-                    <div class="col-md-2"><%= i_submit_button('OFC', 'btn btn-default btn-block') %></div>
-                    <div class="col-md-2"><%= i_submit_button('OUT', 'btn btn-default btn-block') %></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4"><%= i_submit_button('ABS', 'btn btn-default btn-block') %></div>
-                    <div class="col-md-2"><%= i_submit_button('LAT', 'btn btn-default btn-block') %></div>
-                    <div class="col-md-2"><%= i_submit_button('UNK', 'btn btn-default btn-block') %></div>
-                </div>
-            </div>
-            <%= hidden_field_tag :status, "NUL" %>
-            <%= hidden_field_tag :student_id, @student.id %>
-            <%= submit_tag "Go", class: "btn btn-block btn-biggo btn-primary", id: 'go-button' %>
+            <%= render partial: 'goto', locals: {student: @student} %>
         <% end %>
     </div>
 </div>
-
-<%= javascript_tag do %>
-    $('.btn-goto').bind('click', function(e) {
-        e.preventDefault();
-        $('.btn-goto').removeClass('goto-active');
-        $(this).addClass('goto-active');
-        $('#status').val($(this).attr('value'));
-    });
-
-    $('#go-button').bind('click', function(e) {
-    if($('#status').val() == "NUL") {
-    e.preventDefault();
-    alert('Pick a status thing!');
-        }
-    });
-<% end %>

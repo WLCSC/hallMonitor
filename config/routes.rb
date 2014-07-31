@@ -2,6 +2,9 @@ Rails.application.routes.draw do
     resources :students do
       post 'travel', :on => :member
       get 'log', :on => :member
+      get 'mass', :on => :collection
+      get 'manage', :on => :collection
+      post 'alter', :on => :collection
   end
 
     get '/students/:id/log/:year/:month/:day' => 'students#log'
