@@ -16,8 +16,8 @@
     </div>
 
     <div class="col-sm-9">
+        <br/>
         <div style="text-align: center; font-size: 18px;">
-        <h1>Go To:</h1>
         <%= form_tag travel_student_path(@student) do %>
             <%= render partial: 'goto', locals: {student: @student} %>
         <% end %>
